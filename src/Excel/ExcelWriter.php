@@ -66,7 +66,8 @@ class ExcelWriter
             $currentSheet->getCell("B1")->setValue("テーブル:" . $key);
             $currentSheet->getStyle("B1")->getFont()->setSize("18");
             $lastRow = 0;
-            $lastRow = $this->setList($currentSheet, 2, $table["column_setting"], "■カラム情報", "columns");
+//            $lastRow = $this->setHorizontalList($currentSheet, 2, $table["table_setting"], "■テーブル情報", "tableOptions");
+            $lastRow = $this->setList($currentSheet, $lastRow, $table["column_setting"], "■カラム情報", "columns");
             $lastRow =$this->setList($currentSheet, $lastRow + 2, $table["index_setting"], "■インデックス情報", "indexes");
             $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["constraint_setting"], "■制約情報", "constraints");
             $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["foreign_constraint_setting"], "■外部制約情報", "constraints");
@@ -74,6 +75,34 @@ class ExcelWriter
             $this->setColumnsWidth($currentSheet, "column_sheet");
         }
     }
+
+//    function setHorizontalList(Worksheet $currentSheet, $baseRow, $targetArray, $caption, $headerType){
+//        $baseCell = "B" . $baseRow;
+//        $range = new Range($baseCell);
+//
+//        //表タイトルを挿入
+//        $currentSheet->getCell($baseCell)->setValue($caption);
+//        $range->setOffset(1);
+//
+//        //表データの用意
+//
+//        $headerArray=$this->converter->tableHeader($headerType);
+//        array_map(function($key,$value)use($headerArray,$currentSheet){
+//                 if(array_key_exists($key,$headerArray )){
+//
+//                 }
+//
+//
+//
+//
+//        },array_keys($targetArray) ,array_values($targetArray));
+//        $merged = $this->converter->getList($headerType, $targetArray);
+//
+//
+//    }
+
+
+
 
     /**　各表組のデータ挿入
      * @param Worksheet $currentSheet
