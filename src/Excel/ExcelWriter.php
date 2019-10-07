@@ -20,16 +20,26 @@ class ExcelWriter
         $this->format = require "format.config.php";
     }
 
+    /**　処理実行
+     * @param $tables
+     * @param $filename
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
     public function run($tables, $filename)
     {
         $this->createTableListSheet($tables);
-        $this->createColumnListSheet($tables);
+        $this->createEachTableSheet($tables);
 
         $writer = $this->xlsx->setSpreadsheet($this->spreadsheet);
         $writer->save($filename . ".xlsx");
     }
 
 
+    /**テーブル一覧シートの作成
+     * 
+     * @param $tables
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
     private function createTableListSheet($tables)
     {
         $currentSheet = $this->spreadsheet->getSheet(0);
@@ -42,7 +52,11 @@ class ExcelWriter
 
     }
 
-    private function createColumnListSheet($tables)
+    /**各テーブルの定義情報シート作成
+     * @param $tables
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+    private function createEachTableSheet($tables)
     {
 
         foreach ($tables as $key => $table) {
@@ -61,7 +75,45 @@ class ExcelWriter
         }
     }
 
-    private function setTableFormat(Worksheet $currentSheet, $baseCell, array $rows)
+    /**　各表組のデータ挿入
+     * @param Worksheet $currentSheet
+     * @param $baseRow
+     * @param $targetArray
+     * @param $caption
+     * @param $headerType
+     * @return int
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+        private function setList(Worksheet $currentSheet, $baseRow, $targetArray, $caption, $headerType): int
+    {
+        $baseCell = "B" . $baseRow;
+        $range = new Range($baseCell);
+
+        //表タイトルを挿入
+        $currentSheet->getCell($baseCell)->setValue($caption);
+        $range->setOffset(1);
+
+        //表データの用意
+        $merged = $this->converter->getList($headerType, $targetArray);
+
+        $rowCount = count($merged);
+        $currentSheet = $currentSheet->fromArray($merged, null, $range->getRange());
+
+        $this->setListFormat($currentSheet, $range->getRange(), $merged);
+
+        return $baseRow + $rowCount;
+
+    }
+
+
+
+    /**ヘッダ付きリストのフォーマット設定
+     * @param Worksheet $currentSheet
+     * @param $baseCell
+     * @param array $rows
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+    private function setListFormat(Worksheet $currentSheet, $baseCell, array $rows)
     {
         $range = new Range(Coordinate::rangeBoundaries($baseCell));
 
@@ -76,6 +128,43 @@ class ExcelWriter
         $range->setOffset(null, null, $rowsCount, $colsCount);
 
         $currentSheet->getStyle($range->getRange())->applyFromArray($styleArray);
+
+    }
+
+    /**ヘッダ行の書式設定
+     * @param Worksheet $currentSheet
+     * @param Range $range
+     * @param $colsCount
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+    private function setHeaderFormat(Worksheet $currentSheet, Range $range, $colsCount)
+    {
+
+        $styleArray = config("phpSpreadSheet_styles.header_border")
+            + config("phpSpreadSheet_styles.header_color");
+
+        $offset = $range->getOffset(null, null, 0, $colsCount);
+
+        $currentSheet->getStyle($offset)->applyFromArray($styleArray);
+
+    }
+
+    /**リスト行の書式設定
+     * @param Worksheet $currentSheet
+     * @param Range $range
+     * @param $rowsCount
+     * @param $colsCount
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+    private function setBodyFormat(Worksheet $currentSheet, Range $range,$rowsCount, $colsCount)
+    {
+
+        $styleArray = config("phpSpreadSheet_styles.header_border")
+            + config("phpSpreadSheet_styles.header_color");
+
+        $offset = $range->getOffset(null, null, $rowsCount, $colsCount);
+
+        $currentSheet->getStyle($offset)->applyFromArray($styleArray);
 
     }
 
@@ -94,51 +183,5 @@ class ExcelWriter
 
 
 
-    private function setHeaderFormat(Worksheet $currentSheet, Range $range, $colsCount)
-    {
-
-        $styleArray = config("phpSpreadSheet_styles.header_border")
-            + config("phpSpreadSheet_styles.header_color");
-
-        $offset = $range->getOffset(null, null, 0, $colsCount);
-
-        $currentSheet->getStyle($offset)->applyFromArray($styleArray);
-
-    }
-    private function setBodyFormat(Worksheet $currentSheet, Range $range,$rowsCount, $colsCount)
-    {
-
-        $styleArray = config("phpSpreadSheet_styles.header_border")
-            + config("phpSpreadSheet_styles.header_color");
-
-        $offset = $range->getOffset(null, null, $rowsCount, $colsCount);
-
-        $currentSheet->getStyle($offset)->applyFromArray($styleArray);
-
-    }
-
-
-
-    private function setList(Worksheet $currentSheet, $baseRow, $targetArray, $caption, $headerType): int
-    {
-        $baseCell = "B" . $baseRow;
-        $range = new Range($baseCell);
-
-        //表タイトルを挿入
-        $currentSheet->getCell($baseCell)->setValue($caption);
-        $range->setOffset(1);
-
-        //表データの用意
-
-        $merged = $this->converter->getList($headerType, $targetArray);
-
-        $rowCount = count($merged);
-        $currentSheet = $currentSheet->fromArray($merged, null, $range->getRange());
-
-        $this->setTableFormat($currentSheet, $range->getRange(), $merged);
-
-        return $baseRow + $rowCount;
-
-    }
 
 }
