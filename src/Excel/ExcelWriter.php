@@ -52,8 +52,11 @@ class ExcelWriter
             $currentSheet->getCell("B1")->setValue("テーブル:" . $key);
             $currentSheet->getStyle("B1")->getFont()->setSize("18");
             $lastRow = 0;
-            $lastRow = $this->setList($currentSheet, 2, $table["column_setting"], "■テーブル定義", "columns");
-            $this->setList($currentSheet, $lastRow + 3, $table["index_setting"], "■インデックス定義", "indexes");
+            $lastRow = $this->setList($currentSheet, 2, $table["column_setting"], "■カラム情報", "columns");
+            $lastRow =$this->setList($currentSheet, $lastRow + 2, $table["index_setting"], "■インデックス情報", "indexes");
+            $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["constraint_setting"], "■制約情報", "constraints");
+            $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["foreign_constraint_setting"], "■外部制約情報", "constraints");
+            $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["trigger_setting"], "■トリガー情報", "triggers");
             $this->setColumnsWidth($currentSheet, "column_sheet");
         }
     }
