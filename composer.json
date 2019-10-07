@@ -8,13 +8,13 @@
   },
   "autoload": {
     "psr-4": {
-      "KeTo7t\\DocGen\\": "src/"
+      "KeTo7t\\docGen\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "KeTo7t\\DocGen\\docGenServiceProvider"
+        "KeTo7t\\docGen\\docgenServiceProvider"
       ]
     }
   }

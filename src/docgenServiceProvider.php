@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
-class docGenServiceProvider extends ServiceProvider
+class docgenServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
