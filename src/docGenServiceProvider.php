@@ -1,6 +1,6 @@
 <?php
 
-namespace  KeTo7t\docGen;
+namespace  KeTo7t\docgen;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\Facades\Config;
@@ -27,7 +27,7 @@ class docGenServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-            $this->commands([docGen::class]);
+            $this->commands([docgen::class]);
         }
     }
 

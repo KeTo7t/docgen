@@ -1,6 +1,6 @@
 <?php
 
-namespace KeTo7t\docGen\Contract;
+namespace KeTo7t\docgen\Contract;
 
 
 interface  SettingCollectorInterface

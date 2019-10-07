@@ -1,7 +1,7 @@
 <?php
 
 
-namespace KeTo7t\docGen\Excel;
+namespace KeTo7t\docgen\Excel;
 
 
 class Converter

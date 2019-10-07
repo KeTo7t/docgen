@@ -1,6 +1,6 @@
 <?php
 
-namespace KeTo7t\docGen\Excel;
+namespace KeTo7t\docgen\Excel;
 
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;

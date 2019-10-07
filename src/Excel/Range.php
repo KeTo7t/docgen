@@ -1,14 +1,14 @@
 <?php
 
 
-namespace KeTo7t\docGen\Excel;
+namespace KeTo7t\docgen\Excel;
 
 
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 /**
  * Class Range
- * @package KeTo7t\docGen\Excel
+ * @package KeTo7t\docgen\Excel
   */
 class Range
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace KeTo7t\docGen;
+namespace KeTo7t\docgen;
 
 
 class Factory
