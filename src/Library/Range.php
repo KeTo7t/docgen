@@ -1,9 +1,5 @@
 <?php
-
-
-namespace KeTo7t\docgen\Excel;
-
-
+namespace KeTo7t\docgen\Library;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 /**
@@ -15,6 +11,12 @@ class Range
 
     private $rowIndex, $colIndex, $rowHeight, $colWidth;
 
+    const INITIAL_ROW_NUM=1;
+    const INITIAL_COL_NUM=1;
+    const INITIAL_ROW_HEIGHT=0;
+    const INITIAL_COL_WIDTH=0;
+
+
     public function __construct($bound = null)
     {
 
@@ -24,10 +26,10 @@ class Range
             $coordinate = Coordinate::rangeBoundaries($bound);
             $this->setBound($coordinate);
         } else {
-            $this->rowIndex = 1;
-            $this->colIndex = 1;
-            $this->rowHeight = 0;
-            $this->colWidth = 0;
+            $this->rowIndex = self::INITIAL_ROW_NUM;
+            $this->colIndex = self::INITIAL_COL_NUM;
+            $this->rowHeight =  self::INITIAL_ROW_HEIGHT;
+            $this->colWidth = self::INITIAL_COL_WIDTH;
         }
     }
 
@@ -47,18 +49,19 @@ class Range
      */
     private function getColKey($target)
     {
+        $alphabetSize=26;
         $target--;
-        for ($i = 0; $i < 26; $i++) {
+        for ($i = 0; $i < $alphabetSize; $i++) {
             $alphabet[] = strtoupper(chr(ord('a') + $i));
         }
 
-        $one = fmod($target, 26);
+        $one = fmod($target, $alphabetSize);
         $result = $alphabet[$one];
-        $carry = ($target - $one) / 26;
+        $carry = ($target - $one) / $alphabetSize;
         while ($carry != 0) {
-            $one = fmod($carry - 1, 26);
+            $one = fmod($carry - 1, $alphabetSize);
             $result = $alphabet[$one] . $result;
-            $carry = ($carry - 1 - $one) / 26;
+            $carry = ($carry - 1 - $one) / $alphabetSize;
         }
         return $result;
     }
@@ -72,19 +75,20 @@ class Range
     }
 
     /**
-     * Coordinateから得られる配列をもとにアドレスを設定
+     * Coordinate::rangeBoundaries（）から得られる配列をもとにアドレスを設定
      * @param array $bound
      * @return Range
      */
 
     function setBound(array $bound)
     {
-        $startrow = $bound[0][1];
-        $startcol = $bound[0][0];
+
+        $startRow = $bound[0][1];
+        $startCol = $bound[0][0];
         $endRow = $bound[1][1];
         $endCol = $bound[1][0];
 
-        return $this->setRange($startrow, $startcol, $endRow, $endCol);
+        return $this->setRange($startRow, $startCol, $endRow, $endCol);
     }
 
     /**

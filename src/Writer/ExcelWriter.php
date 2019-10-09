@@ -1,18 +1,21 @@
 <?php
 
-namespace KeTo7t\docgen\Excel;
+namespace  KeTo7t\docgen\Writer;
 
+use KeTo7t\docgen\Contract\WriterInterface;
+use KeTo7t\docgen\Library\Converter;
+use KeTo7t\docgen\Library\Range;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class ExcelWriter
+class ExcelWriter implements WriterInterface
 {
 
     private $spreadsheet, $xlsx, $converter;
 
-    public function __construct(Spreadsheet $spreadsheet, Xlsx $xlsx, Converter $converter)
+    public function __construct(Converter $converter, Xlsx $xlsx, Spreadsheet $spreadsheet)
     {
         $this->spreadsheet = $spreadsheet;
         $this->xlsx = $xlsx;
@@ -26,7 +29,9 @@ class ExcelWriter
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     public function run($tables, $filename)
+    //public function run()
     {
+
         $this->createTableListSheet($tables);
         $this->createEachTableSheet($tables);
 
@@ -47,9 +52,10 @@ class ExcelWriter
         $currentSheet->setTitle("テーブル一覧");
         $tablesArray = array_column($tables, "table_setting");
         $this->setList($currentSheet, 1, $tablesArray, "テーブル一覧", "tables");
-        $currentSheet->getStyle("B1")->getFont()->setSize(18);
+        $titleSetting=Config("format.title_cell");
+        $currentSheet->getStyle($titleSetting["address"])->getFont()->setSize($titleSetting["font_size"]);
 
-        $this->setColumnsWidth($currentSheet, Config("sheet_format.column_width.table_list_sheet"));
+        $this->setColumnsWidth($currentSheet, Config("format.column_width.table_list_sheet"));
 
     }
 
@@ -72,7 +78,7 @@ class ExcelWriter
             $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["constraint_setting"], "■制約情報", "constraints");
             $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["foreign_constraint_setting"], "■外部制約情報", "constraints");
             $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["trigger_setting"], "■トリガー情報", "triggers");
-            $this->setColumnsWidth($currentSheet, Config("sheet_format.column_width.table_define_sheet")  );
+            $this->setColumnsWidth($currentSheet, Config("format.column_width.table_define_sheet")  );
         }
     }
 
@@ -124,7 +130,7 @@ class ExcelWriter
 
         $this->setHeaderFormat($currentSheet, $range, $colsCount);
 
-        $styleArray = config("sheet_format.list_style.outline_border");
+        $styleArray = config("format.list_style.outline_border");
 
         $range->setOffset(null, null, $rowsCount, $colsCount);
 
@@ -141,8 +147,8 @@ class ExcelWriter
     private function setHeaderFormat(Worksheet $currentSheet, Range $range, $colsCount)
     {
 
-        $styleArray = config("sheet_format.list_style.header_border")
-            + config("sheet_format.list_style.header_color");
+        $styleArray = config("format.list_style.header_border")
+            + config("format.list_style.header_color");
 
         $offset = $range->getOffset(null, null, 0, $colsCount);
 
@@ -160,8 +166,8 @@ class ExcelWriter
     private function setBodyFormat(Worksheet $currentSheet, Range $range,$rowsCount, $colsCount)
     {
 
-        $styleArray = config("sheet_format.list_style.header_border")
-            + config("sheet_format.list_style.header_color");
+        $styleArray = config("format.list_style.header_border")
+            + config("format.list_style.header_color");
 
         $offset = $range->getOffset(null, null, $rowsCount, $colsCount);
 

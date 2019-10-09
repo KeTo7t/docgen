@@ -1,8 +1,6 @@
 <?php
-
-
-namespace KeTo7t\docgen\Excel;
-
+namespace KeTo7t\docgen\Library;
+use Illuminate\Support\Facades\Config;
 
 class Converter
 {
@@ -10,7 +8,7 @@ class Converter
 
     function __construct()
     {
-        $this->convertTable = require "convertTable.config.php";
+        $this->convertTable = Config::get("convert");
     }
 
     function formListArray($type, $targetArray,$setRowNumber=true)
@@ -35,7 +33,7 @@ class Converter
                 //表示用に配列要素番号に1を加算
                array_unshift( $row,$index + 1 );
             }
-            var_dump($row);
+
             foreach ($tableHeader as $key => $value) {
                 $result[$index][] = $row[$key];
             }

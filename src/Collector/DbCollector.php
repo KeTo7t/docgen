@@ -1,11 +1,11 @@
 <?php
 
-namespace KeTo7t\docgen;
+namespace KeTo7t\docgen\Collector;
 
 use Illuminate\Database\Schema\Builder;
+use KeTo7t\docgen\Contract\CollectorInterface;
 
-
-class DbSettingCollector implements Contract\SettingCollectorInterface
+class DbCollector implements CollectorInterface
 {
     private $connection, $dbName, $tables;
 
@@ -15,11 +15,6 @@ class DbSettingCollector implements Contract\SettingCollectorInterface
         $this->dbName = $this->connection->getDatabaseName();
     }
 
-
-    function execute()
-    {
-        $this->fetchSettings();
-    }
 
     public function fetchSettings()
     {
@@ -35,6 +30,7 @@ class DbSettingCollector implements Contract\SettingCollectorInterface
             $this->tables[$tableName]["foreign_constraint_setting"] = $this->fetchForeignConstraintSetting($tableName);
             $this->tables[$tableName]["trigger_setting"] = $this->fetchTriggerSetting($tableName);
         }
+        return $this->tables;
     }
 
     public function fetchColumnSetting($tableName): array

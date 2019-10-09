@@ -13,8 +13,9 @@ class docgenServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom($this->configPath(), 'sheet_format');
-
+        $this->mergeConfigFrom($this->configPath()."format.config.php", 'format');
+        $this->mergeConfigFrom($this->configPath()."factory.config.php", 'factory');
+        $this->mergeConfigFrom($this->configPath()."convert.config.php", 'convert');
     }
 
     /**
@@ -31,6 +32,6 @@ class docgenServiceProvider extends ServiceProvider
 
     protected function configPath()
     {
-        return __DIR__ . '/Excel/format.config.php';
+        return __DIR__ . '/config/';
     }
 }

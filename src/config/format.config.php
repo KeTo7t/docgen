@@ -19,6 +19,16 @@ return [
         ]
     ],
 
+    "title_cell"=>[
+        "address"=>"B1",
+        "font_size"=>18
+    ],
+
+    "list_cell"=>[
+
+
+    ],
+
     "list_style" => [
         "header_border" => [
             'borders' => [
