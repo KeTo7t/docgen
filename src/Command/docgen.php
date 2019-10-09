@@ -3,8 +3,7 @@
 namespace KeTo7t\docgen;
 
 use Illuminate\Console\Command;
-use KeTo7t\docgen\Excel\ExcelWriter;
-
+use Illuminate\Support\Facades\Validator;
 
 class docgen extends Command
 {
@@ -13,7 +12,7 @@ class docgen extends Command
      *
      * @var string
      */
-    protected $signature = 'generate:DBdocument {--name=DB_definition}';
+    protected $signature = 'generate:DBdocument {--name=DB_definition} {--type=excel} {--source=DB} ';
 
     /**
      * The console command description.
@@ -27,14 +26,9 @@ class docgen extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @param DbSettingCollector $collector
-     * @param ExcelWriter $writer
      */
-    public function __construct( DbSettingCollector $collector, ExcelWriter $writer)
+    public function __construct()
     {
-        $this->collector =  $collector;
-        $this->writer = $writer;
         parent::__construct();
     }
 
@@ -45,8 +39,29 @@ class docgen extends Command
      */
     public function handle()
     {
-        $filename=  $this->option("name");
-        $this->collector->execute();
-        $this->writer->run($this->collector->getTableDefinitions(),$filename);
+      //  $this->validate();
+
+        $filename = $this->option("name");
+        $source= $this->option("source");
+        $type=$this->option("type");
+
+
+
+        $factory = new Factory();
+        $writer=$factory->createWriter($type);
+        $collector=$factory->createCollector($source);
+
+
+        $writer->run($collector->fetchSettings(), $filename);
+    }
+
+    private function validate($input){
+        $rule=[
+
+
+        ];
+
+        $validator = Validator::make();
+
     }
 }

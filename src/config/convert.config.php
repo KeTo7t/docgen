@@ -1,5 +1,6 @@
 <?php
 return [
+    //テーブル一覧シートに表示する列名
     "tables" => [
         "TABLE_SCHEMA" => "データベース名",
         "TABLE_NAME" => "テーブル名",
@@ -23,6 +24,9 @@ return [
 //        "CHECKSUM" => null,
 //        "CREATE_OPTIONS" => null,
     ],
+
+
+    //テーブル定義シートに表示するカラム一覧の列名
     "columns" => [
         "Field" => "カラム名",
         "Type" => "データ型",
@@ -30,7 +34,10 @@ return [
         "Key" => "キー",
         "Default" => "デフォルト値",
 //        "Extra" => null,
-    ]    ,
+    ],
+
+
+    //テーブル定義シートに表示するインデックス一覧の列名
     "indexes" => [
         "Key_name" => "インデックス名",
         "Column_name" => "対象カラム",
@@ -48,6 +55,8 @@ return [
 //        "Visible" => null
     ],
 
+
+    //テーブル定義シートに表示する制約一覧の列名
     "constraints" => [
         "CONSTRAINT_NAME" => "制約名",
         "TABLE_NAME" => "テーブル名",
@@ -63,12 +72,14 @@ return [
 //        "REFERENCED_TABLE_SCHEMA" => null,
     ],
 
-    "triggers"=>[
-        "TRIGGER_NAME"=>"トリガー名",
-        "EVENT_MANIPULATION"=>"イベント",
-        "ACTION_ORIENTATION"=>"実行単位",
-        "ACTION_TIMING"=>"タイミング",
-        "ACTION_CONDITION"=>"実行条件",
+
+    //テーブル定義シートに表示するトリガー一覧の列名
+    "triggers" => [
+        "TRIGGER_NAME" => "トリガー名",
+        "EVENT_MANIPULATION" => "イベント",
+        "ACTION_ORIENTATION" => "実行単位",
+        "ACTION_TIMING" => "タイミング",
+        "ACTION_CONDITION" => "実行条件",
 //        "TRIGGER_CATALOG"=>null,
 //        "TRIGGER_SCHEMA"=>null,
 //        "EVENT_OBJECT_CATALOG"=>null,

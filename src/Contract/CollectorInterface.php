@@ -3,7 +3,7 @@
 namespace KeTo7t\docgen\Contract;
 
 
-interface  SettingCollectorInterface
+interface  CollectorInterface
 {
 
     public function fetchTableSetting();
@@ -11,9 +11,6 @@ interface  SettingCollectorInterface
     public function fetchColumnSetting($tableName);
 
     public function fetchIndexSetting($tableName);
-
-
-
 
     public function fetchSettings();
 
