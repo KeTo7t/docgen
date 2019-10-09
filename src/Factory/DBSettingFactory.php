@@ -1,10 +1,6 @@
 <?php
-
-
 namespace KeTo7t\docgen\Factory;
 
-
-use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Schema\Builder;
 use KeTo7t\docgen\Contract\FactoryInterface;
 use KeTo7t\docgen\Collector\DbCollector;

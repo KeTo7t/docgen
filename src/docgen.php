@@ -4,6 +4,8 @@ namespace KeTo7t\docgen;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class docgen extends Command
 {
@@ -21,9 +23,6 @@ class docgen extends Command
      */
     protected $description = 'generate DBinfo tables Difinision';
 
-
-    private $collector, $writer;
-
     /**
      * Create a new command instance.
      */
@@ -39,29 +38,35 @@ class docgen extends Command
      */
     public function handle()
     {
-      //  $this->validate();
+        $this->validate($this->option());
 
         $filename = $this->option("name");
-        $source= $this->option("source");
-        $type=$this->option("type");
-
+        $source = $this->option("source");
+        $type = $this->option("type");
 
 
         $factory = new Factory();
-        $writer=$factory->createWriter($type);
-        $collector=$factory->createCollector($source);
+        $writer = $factory->createWriter($type);
+        $collector = $factory->createCollector($source);
 
 
         $writer->run($collector->fetchSettings(), $filename);
     }
 
-    private function validate($input){
-        $rule=[
+    private function validate($input)
+    {
 
+        $rule = [
+            "type" => Rule::in(array_keys(config("factory.writer"))),
+            "source" => Rule::in(array_keys(config("factory.collector")))
 
         ];
+        $validator = Validator::make($input,$rule);
 
-        $validator = Validator::make();
+        if($validator->fails()){
+            throw new ValidationException();
+        }
 
+        return true;
     }
 }

@@ -4,6 +4,7 @@
 namespace KeTo7t\docgen;
 
 
+use Illuminate\Support\Facades\Config;
 use KeTo7t\docgen\Contract\CollectorInterface;
 use KeTo7t\docgen\Contract\WriterInterface;
 use KeTo7t\docgen\Factory\DBSettingFactory;
@@ -12,17 +13,13 @@ use KeTo7t\docgen\Factory\ExcelWriterFactory;
 
 class Factory
 {
-    private $writerClasses=[
-        "excel"=>ExcelWriterFactory::class,
-        "dummy"=>DummyWriterFactory::class
+    private $writerClasses,$collectorClasses;
 
-    ];
-
-    private $collectorClasses=[
-        "DB"=> DBSettingFactory::class,
-        "dummy"=>dummyCollectorFactory::class
-
-    ];
+    public function __construct()
+    {
+        $this->writerClasses=Config::get("factory.writer");
+        $this->collectorClasses=Config::get("factory.collector");
+    }
 
     function createWriter($flag):WriterInterface{
         return $this->writerClasses[$flag]::create();
