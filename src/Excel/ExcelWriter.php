@@ -48,7 +48,8 @@ class ExcelWriter
         $tablesArray = array_column($tables, "table_setting");
         $this->setList($currentSheet, 1, $tablesArray, "テーブル一覧", "tables");
         $currentSheet->getStyle("B1")->getFont()->setSize(18);
-        $this->setColumnsWidth($currentSheet, "table_sheet");
+
+        $this->setColumnsWidth($currentSheet, Config("sheet_format.column_width.table_sheet"));
 
     }
 
@@ -71,7 +72,7 @@ class ExcelWriter
             $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["constraint_setting"], "■制約情報", "constraints");
             $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["foreign_constraint_setting"], "■外部制約情報", "constraints");
             $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["trigger_setting"], "■トリガー情報", "triggers");
-            $this->setColumnsWidth($currentSheet, "column_sheet");
+            $this->setColumnsWidth($currentSheet, Config("sheet_format.column_width.table_sheet")  );
         }
     }
 
@@ -123,7 +124,7 @@ class ExcelWriter
 
         $this->setHeaderFormat($currentSheet, $range, $colsCount);
 
-        $styleArray = config("phpSpreadSheet_styles.outline_border");
+        $styleArray = config("sheet_format.list_style.outline_border");
 
         $range->setOffset(null, null, $rowsCount, $colsCount);
 
@@ -140,8 +141,8 @@ class ExcelWriter
     private function setHeaderFormat(Worksheet $currentSheet, Range $range, $colsCount)
     {
 
-        $styleArray = config("phpSpreadSheet_styles.header_border")
-            + config("phpSpreadSheet_styles.header_color");
+        $styleArray = config("sheet_format.list_style.header_border")
+            + config("sheet_format.list_style.header_color");
 
         $offset = $range->getOffset(null, null, 0, $colsCount);
 
@@ -159,8 +160,8 @@ class ExcelWriter
     private function setBodyFormat(Worksheet $currentSheet, Range $range,$rowsCount, $colsCount)
     {
 
-        $styleArray = config("phpSpreadSheet_styles.header_border")
-            + config("phpSpreadSheet_styles.header_color");
+        $styleArray = config("sheet_format.list_style.header_border")
+            + config("sheet_format.list_style.header_color");
 
         $offset = $range->getOffset(null, null, $rowsCount, $colsCount);
 
@@ -172,9 +173,9 @@ class ExcelWriter
      * @param $currentSheet
      * @param $key
      */
-    private function setColumnsWidth($currentSheet, $key) :void
+    private function setColumnsWidth($currentSheet, $formats) :void
     {
-        $formats = $this->format[$key]["width"];
+
         foreach ($formats as $key => $width) {
             $currentSheet->getColumnDimension($key)->setWidth($width);
         }

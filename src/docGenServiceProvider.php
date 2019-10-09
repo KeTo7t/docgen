@@ -15,7 +15,7 @@ class docGenServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom($this->configPath(), 'phpSpreadSheet_styles');
+        $this->mergeConfigFrom($this->configPath(), 'sheet_format');
 
     }
 
@@ -33,6 +33,6 @@ class docGenServiceProvider extends ServiceProvider
 
     protected function configPath()
     {
-        return __DIR__ . '/Excel/styles.config.php';
+        return __DIR__ . '/Excel/format.config.php';
     }
 }
