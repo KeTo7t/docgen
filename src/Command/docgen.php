@@ -13,7 +13,7 @@ class docgen extends Command
      *
      * @var string
      */
-    protected $signature = 'make:DBdocument {--name=DB_definition}';
+    protected $signature = 'generate:DBdocument {--name=DB_definition}';
 
     /**
      * The console command description.
