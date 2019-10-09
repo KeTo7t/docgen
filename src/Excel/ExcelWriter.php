@@ -10,14 +10,14 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class ExcelWriter
 {
 
-    private $spreadsheet, $xlsx, $converter, $format;
+    private $spreadsheet, $xlsx, $converter;
 
     public function __construct(Spreadsheet $spreadsheet, Xlsx $xlsx, Converter $converter)
     {
         $this->spreadsheet = $spreadsheet;
         $this->xlsx = $xlsx;
         $this->converter = $converter;
-        $this->format = require "format.config.php";
+
     }
 
     /**　処理実行
@@ -49,7 +49,7 @@ class ExcelWriter
         $this->setList($currentSheet, 1, $tablesArray, "テーブル一覧", "tables");
         $currentSheet->getStyle("B1")->getFont()->setSize(18);
 
-        $this->setColumnsWidth($currentSheet, Config("sheet_format.column_width.table_sheet"));
+        $this->setColumnsWidth($currentSheet, Config("sheet_format.column_width.table_list_sheet"));
 
     }
 
@@ -72,7 +72,7 @@ class ExcelWriter
             $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["constraint_setting"], "■制約情報", "constraints");
             $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["foreign_constraint_setting"], "■外部制約情報", "constraints");
             $lastRow=$this->setList($currentSheet, $lastRow + 2, $table["trigger_setting"], "■トリガー情報", "triggers");
-            $this->setColumnsWidth($currentSheet, Config("sheet_format.column_width.table_sheet")  );
+            $this->setColumnsWidth($currentSheet, Config("sheet_format.column_width.table_define_sheet")  );
         }
     }
 
@@ -95,7 +95,7 @@ class ExcelWriter
         $range->setOffset(1);
 
         //表データの用意
-        $merged = $this->converter->getList($headerType, $targetArray);
+        $merged = $this->converter->formListArray($headerType, $targetArray);
 
         $rowCount = count($merged);
         $currentSheet = $currentSheet->fromArray($merged, null, $range->getRange());

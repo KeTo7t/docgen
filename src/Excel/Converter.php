@@ -13,25 +13,34 @@ class Converter
         $this->convertTable = require "convertTable.config.php";
     }
 
-    function getList($type, $targetArray)
+    function formListArray($type, $targetArray,$setRowNumber=true)
     {
+
         $headerRow = $this->tableHeader($type);
-        $dataRow = $this->arrayProjection($targetArray, $headerRow);
+        if($setRowNumber){
+            array_unshift($headerRow,"No");
+        }
+        $dataRow = $this->arrayProjection($targetArray, $headerRow,$setRowNumber);
         return array_merge([array_values($headerRow)], $dataRow);
     }
 
 
-    function arrayProjection($rowData, $tableHeader)
+    function arrayProjection($rowData, $tableHeader,$setRowNumber)
     {
-        $count = count($rowData);
         $result = [];
 
         //表の列を制限するとともに表示用に列の順番を入れ替える
-        for ($i = 0; $i < $count; ++$i) {
+        foreach($rowData as $index => $row) {
+            if($setRowNumber){
+                //表示用に配列要素番号に1を加算
+               array_unshift( $row,$index + 1 );
+            }
+            var_dump($row);
             foreach ($tableHeader as $key => $value) {
-                $result[$i][] = $rowData[$i][$key];
+                $result[$index][] = $row[$key];
             }
         }
+
         return $result;
     }
 

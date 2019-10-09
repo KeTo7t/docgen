@@ -1,20 +1,21 @@
 <?php
 return [
     "column_width" => [
-        "table_sheet" => [
-            "B" => 20,
-            "C" => 35,
-            "D" => 25,
-            "E" => 40
+        "table_list_sheet" => [
+            "B" => 4,
+            "C" => 20,
+            "D" => 35,
+            "E" => 25,
+            "F" => 40
         ]
         ,
-        "column_sheet" => [
-
-            "B" => 30,
-            "C" => 25,
-            "D" => 15,
+        "table_define_sheet" => [
+            "B" => 4,
+            "C" => 30,
+            "D" => 25,
             "E" => 15,
-            "F" => 30
+            "F" => 15,
+            "G" => 30
         ]
     ],
 
