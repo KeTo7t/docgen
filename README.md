@@ -2,6 +2,7 @@
 Excelの呪縛から逃れられない人向けDB定義書生成ツール
 
 ## Requirement
+
 laravel >= 6.0
 phpoffice/phpspreadsheet: "^1.9"
 
