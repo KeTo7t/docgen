@@ -23,7 +23,7 @@ phpoffice/phpspreadsheet: "^1.9"
 ```
 composer require KeTo7t/docgen
 ```
-3)　artisanコマンドの一覧にコマンドが追加されているか確認
+ 3) artisanコマンドの一覧にコマンドが追加されているか確認
 php artisan | grep DB　でコマンドが確認できればOK
 
 
