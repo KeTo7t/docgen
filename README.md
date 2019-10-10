@@ -19,11 +19,11 @@ phpoffice/phpspreadsheet: "^1.9"
 
  ```
  
- 2) 以下コマンドでインストール
+2) 以下コマンドでインストール
 ```
 composer require KeTo7t/docgen
 ```
- 3) artisanコマンドの一覧にコマンドが追加されているか確認
+3) artisanコマンドの一覧にコマンドが追加されているか確認  
 php artisan | grep DB　でコマンドが確認できればOK
 
 
