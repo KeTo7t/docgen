@@ -2,6 +2,7 @@
 
 namespace  KeTo7t\docgen\Writer;
 
+use KeTo7t\docgen\Contract\CollectorInterface;
 use KeTo7t\docgen\Contract\WriterInterface;
 use KeTo7t\docgen\Library\Converter;
 use KeTo7t\docgen\Library\Range;
@@ -13,13 +14,14 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class ExcelWriter implements WriterInterface
 {
 
-    private $spreadsheet, $xlsx, $converter;
+    private $spreadsheet, $xlsx, $converter, $collector;
 
     public function __construct(Converter $converter, Xlsx $xlsx, Spreadsheet $spreadsheet)
     {
         $this->spreadsheet = $spreadsheet;
         $this->xlsx = $xlsx;
         $this->converter = $converter;
+
 
     }
 
@@ -28,10 +30,12 @@ class ExcelWriter implements WriterInterface
      * @param $filename
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    public function run($tables, $filename)
+    public function run($filename,CollectorInterface $collector)
     //public function run()
     {
+        $this->collector=$collector;
 
+        $tables=$this->collector->fetchSettings();
         $this->createTableListSheet($tables);
         $this->createEachTableSheet($tables);
 

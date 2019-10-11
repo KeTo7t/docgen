@@ -44,13 +44,11 @@ class docgen extends Command
         $source = $this->option("source");
         $type = $this->option("type");
 
-
         $factory = new Factory();
         $writer = $factory->createWriter($type);
         $collector = $factory->createCollector($source);
 
-
-        $writer->run($collector->fetchSettings(), $filename);
+        $writer->run($filename,$collector);
     }
 
     private function validate($input)
@@ -63,8 +61,9 @@ class docgen extends Command
         ];
         $validator = Validator::make($input,$rule);
 
+
         if($validator->fails()){
-            throw new ValidationException();
+            throw new ValidationException($validator);
         }
 
         return true;

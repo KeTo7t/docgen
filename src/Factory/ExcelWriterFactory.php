@@ -9,6 +9,8 @@ use KeTo7t\docgen\Library\Converter;
 use KeTo7t\docgen\Writer\ExcelWriter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use KeTo7t\docgen\Collector\DbCollector;
+
 
 
 class ExcelWriterFactory implements FactoryInterface
@@ -19,7 +21,8 @@ class ExcelWriterFactory implements FactoryInterface
         $converter=new Converter();
         $spreadSheet= new Spreadsheet();
         $xlsx=new Xlsx($spreadSheet);
-        return new ExcelWriter($converter,$xlsx,$spreadSheet);
+
+        return new ExcelWriter($converter, $xlsx, $spreadSheet);
     }
 
 }
