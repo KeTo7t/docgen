@@ -26,5 +26,16 @@ composer require KeTo7t/docgen
 3) artisanコマンドの一覧にコマンドが追加されているか確認  
 php artisan | grep DB　でコマンドが確認できればOK
 
+## Usage
+artisanコマンドとして下記実行
+```
+php artisan generate:DBdocment --name={filename} --type={typename} 
+```
+オプション:
+filename → 出力するファイル名（拡張子抜き）
+typename →　以下の出力形式
+　　　　　　　　　excel→エクセルでのDB定義書
+　　　　　　　　　md →markdownの表形式での定義書
+　　
 
 
